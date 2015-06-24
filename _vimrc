@@ -6,23 +6,6 @@ if has('gui_running')
     endif
 endif
 
-"" Maximize gvim window
-if has("gui_running")
-  " GUI is running or is about to start.
-  " Maximize gvim window (for an alternative on Windows, see simalt below).
-  set lines=999 columns=999
-else
-  " This is console Vim.
-  if exists("+lines")
-    set lines=50
-  endif
-  if exists("+columns")
-    set columns=100
-  endif
-endif
-" Automatic reloading of .vimrc
-" ==============================
-"autocmd! bufwritepost _vimrc source %
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType python nnoremap <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
@@ -60,9 +43,9 @@ vnoremap <c-z> <C-C>:update<CR>
 inoremap <c-z> <C-D>:update<CR>
 
 " Quick quit command
-noremap <Leader>e :q<CR> " Quick current window
+noremap <Leader>e :q<CR> " Quick close current window
 noremap <Leader>er :q!<CR> 
-noremap <Leader>E :qa!<CR>  " Quick all windows
+noremap <Leader>E :qa!<CR>  " Quick close all windows
 
 
 " don't use tabs but spaces
@@ -102,8 +85,6 @@ call pathogen#helptags()
 
 
 " settings for powerline
-" cd ~/.vim/bundle
-" git clone https://github.com/Lokaltog/vim-powerline
 set laststatus=2
 
 " settings for ctrlp
@@ -181,13 +162,6 @@ map <left>  :bprevious<cr>
 
 
 
-" automatically adding executable bit to files
-" =================================================
-if has('unix')
-    au BufWritePost *.sh silent !chmod +x <afile> 
-    au BufWritePost *.py silent !chmod +x <afile> 
-endif
-
 
 let g:SuperTabDefaultCompletionType = "context"
 
@@ -202,15 +176,11 @@ map <c-h> <c-w>h
 
 map gf :edit <cfile><CR>
 
-" easier to move around in insert mode
-inoremap <c-h> <left>
-inoremap <c-l> <right>
 
 
 
 
 set completeopt=longest,menuone
-
 
 
 
@@ -226,8 +196,8 @@ map <Leader>. <esc>:tabnext<CR>
 "  let NERDTreeChDirMode=2
 let NERDTreeRespectWildIgnore = 1
 let NERDTreeShowBookmarks=1
-"map <F4> :NERDTreeToggle<CR>
-autocmd vimenter * NERDTree
+map <F4> :NERDTreeToggle<CR>
+"autocmd vimenter * NERDTree
 
 " Delete trailing white space on save, useful for Python and CoffeeScript ;)
 func! DeleteTrailingWS()
@@ -245,9 +215,6 @@ imap <C-v> <Esc><C-v>a
 
 
 
-"" GitGutter settings
-let g:gitgutter_sign_added = '++'
-let g:gitgutter_sign_removed = 'rr'
 
 
 
