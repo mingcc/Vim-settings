@@ -4,23 +4,32 @@ if has('gui_running')
     elseif has('win32')
         set guifont=Consolas:h14,Courier\ New:h20
     endif
+    set lines=50 columns=180
 endif
 
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType python nnoremap <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
 
-" General 
+" more natural splitting
+set splitbelow
+set splitright
+
+
+
+
+" General
 " =========
 "set bg=dark
-autocmd GUIEnter * let $GIT_EDITOR = 'false'
+inoremap jj <Esc>
 set encoding=utf-8
-set mouse=a              
-set bs=2                
+set mouse=a
+set backspace=indent,eol,start
+set background=dark
 set wildmode=list:longest " make TAB behave like in a shell
 set autoread
-colorscheme wombat
-set wildignore+=*__pycache__/*,*.pyc
+colorscheme distinguished
+set wildignore+=*.pyc
 noremap <Leader>h :nohl<CR>
 
 "original: set grepprg=grep\ -rnH\ --exclude='.*.swp'\ --exclude='*~'\ --exclude=tags
@@ -37,38 +46,38 @@ syntax on
 " Rebind <leader> key
 let mapleader = ","
 
-" Quicksave command 
+" Quicksave command
 noremap <c-z> :update<CR>
 vnoremap <c-z> <C-C>:update<CR>
 inoremap <c-z> <C-D>:update<CR>
 
 " Quick quit command
 noremap <Leader>e :q<CR> " Quick close current window
-noremap <Leader>er :q!<CR> 
+noremap <Leader>er :q!<CR>
 noremap <Leader>E :qa!<CR>  " Quick close all windows
 
 
 " don't use tabs but spaces
 set tabstop=4
-set softtabstop=4     "tabs key indent by four spaces  
+set softtabstop=4     "tabs key indent by four spaces
 set shiftwidth=4
 set shiftround
 set expandtab         "convert tabs to whitespace
 
 " easier moving of code blocks
-vnoremap < <gv 
+vnoremap < <gv
 vnoremap > >gv
 map <c-a> ggVG  " select all
 
 " filetype
-filetype off 
+filetype off
 filetype plugin indent on
 "filetype plugin on
 
 
 
 " Make case search insensitive
-set hlsearch 
+set hlsearch
 set incsearch
 set ignorecase
 set smartcase
@@ -76,8 +85,7 @@ set smartcase
 " disable backup and swap files
 set nobackup
 set nowritebackup
-set noswapfile
-
+set noswapfile 
 " setup Pathogen to manage your plugins
 call pathogen#infect()
 call pathogen#helptags()
@@ -88,9 +96,10 @@ call pathogen#helptags()
 set laststatus=2
 
 " settings for ctrlp
-"let g:ctrip_max_height = 30
-" Search from current directory instead of project root
 let g:ctrlp_working_path_mode = 0
+let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$|.pyc$|virtualenv|venv'
+noremap <Leader>b :CtrlPBuffer<CR>
+noremap <Leader>m :CtrlPMRUFiles<CR>
 
 
 
@@ -100,8 +109,9 @@ set t_Co =256
 set tw=79 " width of document  (used by gd)
 set nowrap  " don't automatically wrap on load
 set fo-=t   " don't actomatically wrap text when typing
-highlight ColorColumn ctermbg=233
-highlight PmenuSel ctermbg=15 guibg=white
+"highlight ColorColumn ctermbg=233
+set colorcolumn=+1
+"highlight PmenuSel ctermbg=15 guibg=white
 
 
 
@@ -143,17 +153,13 @@ let g:syntastic_check_on_wq = 1
 " Settings for jedi-vim
 " =====================
 let g:jedi#usages_command = "<leader>n"
-let g:jedi#popup_select_first = 1
+let g:jedi#popup_select_first = 0
 
 map <F5> :pyfile %<cr>
 
 
 
 
-" Close all folds when opening a new buffer
-" zR to open all folds
-" autocmd BufRead * setlocal foldmethod=marker
-" autocmd BufRead * normal zM
 
 " Buffer movement
 map <right>  :bnext<cr>
@@ -164,6 +170,7 @@ map <left>  :bprevious<cr>
 
 
 let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
 
 
 " Movement
@@ -173,8 +180,6 @@ map <c-j> <c-w>j
 map <c-k> <c-w>k
 map <c-l> <c-w>l
 map <c-h> <c-w>h
-
-map gf :edit <cfile><CR>
 
 
 
@@ -199,19 +204,12 @@ let NERDTreeShowBookmarks=1
 map <F4> :NERDTreeToggle<CR>
 "autocmd vimenter * NERDTree
 
-" Delete trailing white space on save, useful for Python and CoffeeScript ;)
-func! DeleteTrailingWS()
-  exe "normal mz"
-  %s/\s\+$//ge
-  exe "normal `z"
-endfunc
-autocmd BufWrite *.py :call DeleteTrailingWS()
 
 
 
 vmap <C-y> y:call system("xclip -i -selection clipboard", getreg("\""))<CR>:call system("xclip -i", getreg("\""))<CR>
 nmap <C-v> :call setreg("\"",system("xclip -o -selection clipboard"))<CR>p
-imap <C-v> <Esc><C-v>a
+imap <C-v> <Esc><C-v>
 
 
 
